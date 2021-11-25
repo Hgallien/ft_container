@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <vector>
+
 #include <deque>
 #include <memory>
 #include "vector.hpp"
@@ -223,7 +225,13 @@ int main() {
 	vector<int>::const_iterator it_c;
 	vector<int>::iterator it;
 	it_c = map_c.begin();
-	it = it_c;
+	it_c= it;
 	it_c = map_test.begin();
-	it = it_c;
+
+	std::vector<int> v;
+	std::vector<int>::iterator it3 = v.begin();
+	std::vector<int>::const_iterator it4 = v.begin();
+	// it3 = it4;
+	it4=it3;
+
 }

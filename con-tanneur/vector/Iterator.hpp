@@ -124,17 +124,10 @@ namespace ft
 			elem += 1;
 			return temp;
 		}
-		protected :
-		const pointer getElem()	const 
+				template<typename S>	
+		 random_access_iterator &operator=(random_access_iterator<S> cpy)
 		{
-			return elem;
-		}
-		public :
-		template<typename S>	
-		 random_access_iterator &operator=(const random_access_iterator<S> cpy)
-		{
-			elem = cpy.getElem();
-
+			elem = (cpy.operator->());
 			return *this;
 		}
 		reference operator[](int i)
@@ -157,9 +150,9 @@ namespace ft
 		{
 			return *(this->elem) ;
 		}
-		reference operator->(void)
+		pointer operator->(void)
 		{
-			return *(this->elem) ;
+			return (this->elem) ;
 		}
 
 		template <typename S, typename Q>
