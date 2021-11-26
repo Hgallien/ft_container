@@ -1,3 +1,6 @@
+
+#ifndef VECTOT_HPP 
+#define VECTOT_HPP 
 #include <memory>
 #include "Iterator.hpp"
 #include <iostream>
@@ -261,6 +264,42 @@ public:
 			return t[_size-1];
 		}
 		//MODIFIER
+		iterator erase (iterator position)
+		{
+			iterator temp = position;
+			_alloc.destroy(position.operator->());
+			while(position + 1 != end())
+			{
+				_alloc.construct(position.operator->(),*(position + 1));
+				_alloc.destroy((position + 1).operator->());
+				position++;
+			}
+
+			_size--;
+			return temp;
+		}
+		iterator erase (iterator first, iterator last)
+		{
+			size_type s = 0;
+			iterator temp = first;
+			iterator r = first;
+			for(;temp !=last;temp++)
+			{
+				_alloc.destroy(temp.operator->());
+				s++;
+			}
+
+			while (last != end())
+			{
+
+				// std::cout<<"la\n";
+				_alloc.construct(first.operator->(),*last);
+				last++;
+				first++;
+			}
+			_size = _size - s;
+			return r;
+		}
 		void dealloc_destruct(void)
 		{
 			if (t!= 0)
@@ -588,6 +627,8 @@ template <class InputIterator>
 		void clear()
 		{
 			// std::cout<<"dans clear size and capacity"<<_size<<" "<<"_capcity"<<_capacity<<"\n";
+			if (_size == 0)
+				return;
 			for (size_type i = _size-1; i>=0; i--)
 			{
 				_alloc.destroy(&t[i]);
@@ -679,3 +720,5 @@ friend bool operator>=(vector const &x, vector const &y)
 			return !(x<y);
 		}
 };
+#endif
+

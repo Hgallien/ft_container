@@ -1,6 +1,6 @@
 #include "vector.hpp"
 
-	template <typename T>
+template <typename T>
 void	test_constructor_assignastion()
 {
 
@@ -41,7 +41,7 @@ void	test_constructor_assignastion()
 	}
 	std::cout<<"\n";
 
-	std::cout<<"Test constructor vide\n";
+	std::cout<<"Test constructor vide base\n";
 	vector<T> v_base_e;
 	std::cout<<"Size = "<<v_base.size()<<std::endl;
 	std::cout<<"Capacity= "<<v_base.capacity()<<std::endl;
@@ -51,14 +51,20 @@ void	test_constructor_assignastion()
 		std::cout<<*it<<" ";
 	}
 	std::cout<<"\n";
+
+	std::cout<<"Test constructor vide iterator range\n";
 	vector<T> v_iterator_e(v_base_e.begin(),v_base.end());
+
 	v_base_e.clear();
+
 	for(typename vector<T>::iterator it = v_iterator_e.begin();it!= v_iterator_e.end(); it++)
 	{
 		std::cout<<*it<<" ";
+
 	}
 	std::cout<<"\n";
 
+	std::cout<<"Test constructor vide copy\n";
 	vector<T> v_copy_e(v_iterator_e);
 	for(typename vector<T>::iterator it = v_iterator_e.begin();it!= v_iterator_e.end(); it++)
 	{
@@ -72,17 +78,19 @@ void	test_constructor_assignastion()
 		std::cout<<*it<<" ";
 	}
 	std::cout<<"\n";
+
 }
 
 	template <typename T>
 void	test_iterator()
 {
 	vector<T> v;
-	typename vector<T>::iterator it = it.begin();
 	for (int i = 0 ; i<100; i++)
 	{
-			v.insert(i);
+			v.push_back(i);
 	}
+
+	typename vector<T>::iterator it = v.begin();
 	std::cout << "*it = " << *it << std::endl;
   // operator++
   std::cout << "++it = " << *(++it) << ", now *it = " << *it << std::endl;
@@ -152,9 +160,6 @@ void	test_iterator()
 
 void all_comparisons(vector<int> const & a, vector<int> const & b) {
   std::boolalpha(std::cout);
-  std::cout << "a = ";
-  std::cout << ", b = ";
-  std::cout << std::endl;
   std::cout << "a == b : " << (a == b) << std::endl;
   std::cout << "a != b : " << (a != b) << std::endl;
   std::cout << "a < b : " << (a < b) << std::endl;
@@ -183,23 +188,21 @@ void test_comparisons() {
 	vector<int> v3;
 	vector<int> v3_b;
 	for (int i = 0 ; i < 4 ; i++)
-	{	v1.push_back(i);
+	{	
+		v1.push_back(i);
 		v1_b.push_back(i);
 	}
-	int v1b_values[] = {0, 1, 2, 3};
-  int v2_values[] = {0, 1, 2, 3, 4};
-  int v2b_values[] = {0, 1, 2};
   	for (int i = 0 ; i < 5 ; i++)
-	{	v2.push_back(i);
+	{	
+		v2.push_back(i);
 	}
 for (int i = 0 ; i < 3 ; i++)
-	{	v2_b.push_back(i);
+	{	
+		v2_b.push_back(i);
 	}
-  int v3_values[] = {0, 1, 10};
 		v3.push_back(0);
 		v3.push_back(1);
 		v3.push_back(10);
-  int v3b_values[] = {0, 1, 1};
   		v3.push_back(0);
 		v3.push_back(1);
 		v3.push_back(1);
@@ -211,25 +214,13 @@ for (int i = 0 ; i < 3 ; i++)
 }
 
 template <typename T>
-void	test_insertion()
+void	test_modifier()
 {
-
 	std::cout<<"/////////////////Test modifiers  & access////////////////\n";
 	vector<T> v_b;
 
-	std::cout<<"Test insert \n";
-	for (int i = 0 ; i < 100000 ; i++)
-	{
-		v_b.insert(i);
-	}
-	for(typename  vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
-	{
-		std::cout<<*it<<" ";
-	}
-	std::cout<<"\n";
-
-	std::cout<<"Test push_back \n";
-	for (int i = 0 ; i < 100 ; i ++)
+		std::cout<<"Test push_back \n";
+	for (int i = 0 ; i < 1000 ; i ++)
 	{
 		v_b.push_back(i);
 	}
@@ -239,10 +230,25 @@ void	test_insertion()
 	}
 	std::cout<<"\n";
 
+	std::cout<<"Test insert  simple \n";
+	v_b.insert(v_b.begin() + 3, -100);
+	
+	std::cout<<"Test insert  simple +n \n";
+	v_b.insert(v_b.begin() + 40, 10,42);
+
+	std::cout<<"Test insert  simple range \n";
+	vector<T> v_b2(33,10);
+	v_b.insert(v_b.begin() + 100, v_b2.begin(),v_b2.end());
+	for(typename  vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
+	{
+		std::cout<<*it<<" ";
+	}
+	std::cout<<"\n";
+
 	std::cout<<"Test pop_back \n";
 	for (int i = 0 ; i < 100 ; i ++)
 	{
-		v_b.pop_back(i);
+		v_b.pop_back();
 	}
 	for(typename  vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
 	{
@@ -258,17 +264,19 @@ void	test_insertion()
 	}
 	std::cout<<"\n";
 
-	v_b.erase(v_b.begin(), v_b.end() -1000);
+	std::cout<<"Test erase one4\n";
+	v_b.erase(v_b.begin(), v_b.end() - 10);
 
 	std::cout<<"Test erase range\n";
 	for(typename  vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
 	{
 		std::cout<<*it<<" ";
 	}
+
 	std::cout<<"\n";
 
 	std::cout<<"Test operator[] \n";
-	for (unsigned int i = 0 ; i <v_b.size;i++)
+	for (unsigned int i = 0 ; i <v_b.size();i++)
 	{
 		std::cout<<v_b[i]<<" ";
 	}
@@ -305,12 +313,23 @@ void	test_insertion()
 	v_b.swap(vide);
 
 	std::cout<<"Test front\n";
-	std::cout<<v_b.front();
+	std::cout<<v_b.front()<<std::endl;
 
 	std::cout<<"Test AT\n";
+	try{
 	std::cout<<v_b.at(100);
-
+	}
+	catch (std::exception & e)
+	{
+		std::cout<<e.what()<<std::endl;
+	}
+	try{
+	std::cout<<v_b.at(1)<<std::endl;
+	}
+	catch (std::exception & e)
+	{
+		std::cout<<e.what()<<std::endl;
+	}
 	std::cout<<"Test AT\n";
-	std::cout<<v_b.back();
-
+	std::cout<<v_b.back()<<std::endl;
 }
