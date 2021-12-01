@@ -48,6 +48,7 @@ public:
 		{
 			return iterator (t + _size);
 		}
+
 		const_reverse_iterator rbegin(void) const
 		{
 			return const_reverse_iterator (t + _size - 1);
@@ -133,6 +134,8 @@ public:
 				// _alloc.deallocate(t,_capacity);
 			// std::cout<<"destructor\n";
 			t = 0;
+			_size = 0;
+			_capacity= 0;
 		}
 		//OPERATOR
 		vector& operator= (const vector &x)
@@ -214,13 +217,16 @@ public:
 				throw std::exception();
 			if (n > _capacity)
 			{
-
+		
 				T *temp;
 				temp = _alloc.allocate(n);
 				if (t != 0)
 				{
 					for (size_type i = 0 ; i < _size; i++)
-						temp[i] = t[i];
+					{_alloc.construct(&temp[i],t[i]);
+						// temp[i] = t[i];
+					_alloc.destroy(&t[i]);
+					}
 					_alloc.deallocate(t,_size);
 				}
 				_capacity = n;
@@ -294,6 +300,7 @@ public:
 
 				// std::cout<<"la\n";
 				_alloc.construct(first.operator->(),*last);
+				_alloc.destroy(last.operator->());
 				last++;
 				first++;
 			}
@@ -568,10 +575,19 @@ template <class InputIterator>
 			if (n +_size > _capacity)
 			{
 
-			// std::cout<<"penis2\n\n\n\n\n\n";
-				T* temp  = _alloc.allocate(_size + n);
-				for (iterator it = end(); it >= position; it--)
+			// std::cout<<"penis2 n = "<<n<<"\n";
+			size_type z = _size;
+			while (z < _size +n)
+			{
+				z = z *2; 
+			}
+				T* temp  = _alloc.allocate(z);
+				iterator it = end();
+				it --;
+				for (; it >= position; it--)
 				{
+
+					// std::cout<<"penis8 it= "<<*it<<"\n";
 					// temp[_size +n - i] = *it;
 					_alloc.construct(&temp[_size +n - i],*it);
 					i++;
@@ -594,7 +610,7 @@ template <class InputIterator>
 		 	dealloc_destruct();
 				t = temp;
 				_size = _size + n;
-				_capacity = _size + n;
+				_capacity = z;
 			}
 			else
 			{

@@ -124,8 +124,8 @@ namespace ft
 			elem += 1;
 			return temp;
 		}
-				template<typename S>	
-		 random_access_iterator &operator=(random_access_iterator<S> cpy)
+		template<typename S>	
+		random_access_iterator &operator=(random_access_iterator<S> cpy)
 		{
 			elem = (cpy.operator->());
 			return *this;

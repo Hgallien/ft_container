@@ -9,7 +9,7 @@ void	stl_test_constructor_assignastion(std::ofstream &out)
 {
 	std::cout<<"test111\n";
 	out<<"////////////Test constructor/////////////////\n";
-	std::vector<T> v_base(100,42);
+	std::vector<T> v_base(100,T(42));
 	out<<"Size = "<<v_base.size()<<std::endl;
 	v_base.reserve(1000);
 	out<<"Capacity= "<<v_base.capacity()<<std::endl;
@@ -49,7 +49,7 @@ void	stl_test_constructor_assignastion(std::ofstream &out)
 	out<<"Test constructor vide base\n";
 	std::vector<T> v_base_e;
 	out<<"Size = "<<v_base.size()<<std::endl;
-	out<<"Capacity= "<<v_base.capacity()<<std::endl;
+	out<<"Capacity= "<<v_base_e.capacity()<<std::endl;
 	out<<"Empty= "<<v_base.empty()<<std::endl;
 
 	std::cout<<"test333\n";
@@ -101,7 +101,7 @@ void	stl_test_iterator(std::ofstream &out)
 	std::vector<T> v;
 	for (int i = 0 ; i<100; i++)
 	{
-			v.push_back(i);
+			v.push_back(T(i));
 	}
 
 	typename std::vector<T>::iterator it = v.begin();
@@ -151,28 +151,28 @@ void	stl_test_iterator(std::ofstream &out)
 	
 
   out << "Mutable iterator" << std::endl;
-  for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
+  for (typename std::vector<T>::iterator it = v.begin(); it != v.end(); ++it)
     out << *it << ", ";
   out << "END" << std::endl;
 
   out << "Mutable reverse iterator" << std::endl;
-  for (std::vector<int>::reverse_iterator it = v.rbegin(); it != v.rend(); ++it)
+  for (typename std::vector<T>::reverse_iterator it = v.rbegin(); it != v.rend(); ++it)
     out << *it << ", ";
   out << "END" << std::endl;
 
-  std::vector<int> const cIntVect(v);
+  std::vector<T> const cIntVect(v);
   out << "Const iterator" << std::endl;
-  for (std::vector<int>::const_iterator it = cIntVect.begin(); it != cIntVect.end(); ++it)
+  for (typename std::vector<T>::const_iterator it = cIntVect.begin(); it != cIntVect.end(); ++it)
     out << *it << ", ";
   out << "END" << std::endl;
 
   out << "Reverse const iterator" << std::endl;
-  for (std::vector<int>::const_reverse_iterator it = cIntVect.rbegin(); it != cIntVect.rend(); ++it)
+  for (typename std::vector<T>::const_reverse_iterator it = cIntVect.rbegin(); it != cIntVect.rend(); ++it)
     out << *it << ", ";
   out << "END" << std::endl;
 }
-
-void stl_all_comparisons(std::vector<int> const & a, std::vector<int> const & b,std::ofstream &out) {
+template<typename T>
+void stl_all_comparisons(std::vector<T> const & a, std::vector<T> const & b,std::ofstream &out) {
   std::boolalpha(out);
   out << "a == b : " << (a == b) << std::endl;
   out << "a != b : " << (a != b) << std::endl;
@@ -191,35 +191,36 @@ void	stl_print_vect(std::vector<T> v,std::ofstream &out)
 	}
 		out<<"\n";
 }
+template<typename T>
 void stl_test_comparisons(std::ofstream &out) {
   
-	std::vector<int> v1;
+	std::vector<T> v1;
 
-	std::vector<int> v1_b;
+	std::vector<T> v1_b;
 
-	std::vector<int> v2;
-	std::vector<int> v2_b;
-	std::vector<int> v3;
-	std::vector<int> v3_b;
+	std::vector<T> v2;
+	std::vector<T> v2_b;
+	std::vector<T> v3;
+	std::vector<T> v3_b;
 	for (int i = 0 ; i < 4 ; i++)
 	{	
-		v1.push_back(i);
-		v1_b.push_back(i);
+		v1.push_back(T(i));
+		v1_b.push_back(T(i));
 	}
   	for (int i = 0 ; i < 5 ; i++)
 	{	
-		v2.push_back(i);
+		v2.push_back(T(i));
 	}
 for (int i = 0 ; i < 3 ; i++)
 	{	
-		v2_b.push_back(i);
+		v2_b.push_back(T(i));
 	}
-		v3.push_back(0);
-		v3.push_back(1);
-		v3.push_back(10);
-  		v3.push_back(0);
-		v3.push_back(1);
-		v3.push_back(1);
+		v3.push_back(T(0));
+		v3.push_back(T(1));
+		v3.push_back(T(10));
+  		v3.push_back(T(0));
+		v3.push_back(T(1));
+		v3.push_back(T(1));
   stl_all_comparisons(v1, v1_b,out);
   stl_all_comparisons(v1, v2,out);
   stl_all_comparisons(v1, v2_b,out);
@@ -236,7 +237,7 @@ void	stl_test_modifier(std::ofstream &out)
 		out<<"Test push_back \n";
 	for (int i = 0 ; i < 1000 ; i ++)
 	{
-		v_b.push_back(i);
+		v_b.push_back(T(i));
 	}
 	for(typename  std::vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
 	{
@@ -245,15 +246,23 @@ void	stl_test_modifier(std::ofstream &out)
 	out<<"\n";
 
 	out<<"Test insert  simple \n";
-	v_b.insert(v_b.begin() + 3, -100);
-	
-	out<<"Test insert  simple +n \n";
-	v_b.insert(v_b.begin() + 40, 10,42);
-
-	out<<"Test insert  simple range \n";
-	std::vector<T> v_b2(33,10);
-	v_b.insert(v_b.begin() + 100, v_b2.begin(),v_b2.end());
+	v_b.insert(v_b.begin() + 3, T(-100));
 	for(typename  std::vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
+	{
+		out<<*it<<" ";
+	}
+	out<<"Test insert  simple +n \n";
+	v_b.insert(v_b.begin() + 40, 10,T(42));
+for(typename  std::vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
+	{
+		out<<*it<<" ";
+	}
+	out<<"Test insert  simple range\n";
+	std::vector<T> v_b2(33,T(10));
+	// typename  std::vector<T>::iterator it_test = v_b.begin() + 100;
+	// out<<"size = "<<v_b.size()<<"position  = "<< *it_test<<::std::endl;
+	v_b.insert(v_b.begin() + 100, v_b2.begin(),v_b2.end());
+		for(typename  std::vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
 	{
 		out<<*it<<" ";
 	}
@@ -297,7 +306,7 @@ void	stl_test_modifier(std::ofstream &out)
 	out<<"\n";
 	
 	out<<"Test swap \n";
-	std::vector<T> swapy(4,4);
+	std::vector<T> swapy(4,T(4));
 	v_b.swap(swapy);
 	for(typename  std::vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
 	{
