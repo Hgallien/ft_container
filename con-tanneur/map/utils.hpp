@@ -14,6 +14,7 @@ struct pair
 	}
 	pair (const  Key& k, const T& elem) : first (k), second(elem)
 	{
+		// std::cout<<"penis magique\n";
 	}
 	pair ( pair const &cpy)  : first(cpy.first), second(cpy.second)
 	{
@@ -46,12 +47,12 @@ template <class T1, class T2>
 		return (pair<T1,T2>(x,y));
 }
 
-// template <class Key, class T>
-// std::ostream& operator<<(std::ostream& out, const pair<Key,T> &w)
-// {
-	// out <<"("<<w.first<<") "<<"("<<w.second<<")\n";
-	// return out;
-// }
+template <class Key, class T>
+std::ostream& operator<<(std::ostream& out, const pair<Key,T> &w)
+{
+	out <<"("<<w.first<<") "<<"("<<w.second<<")\n";
+	return out;
+}
 template <class InputIterator1, class InputIterator2>
   bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1,
                                 InputIterator2 first2, InputIterator2 last2)

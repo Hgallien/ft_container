@@ -1,19 +1,46 @@
-#include <iostream>
-#include <stack>
-#include <cstdlib>
-#include <cstddef>
-#include <stack>
-#include <map>
+
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
+#include <iostream>
+#include <cstdlib>
+#include <cstddef>
 namespace ft
 {
+	struct input_iterator_tag
+	{};
+	struct forward_iterator_tag
+	{};
 	struct random_access_iterator_tag
 	{};
-
+	struct bidirectional_iterator_tag
+	{};
 	struct rev_random_access_iterator_tag
 	{};
-
+	template <class Iterator> class iterator_traits
+	{
+		
+			typedef typename Iterator::value_type value_type;
+			typedef typename  Iterator::difference_type difference_type;
+			typedef typename  Iterator::pointer pointer;
+			typedef typename  Iterator::reference reference;
+			typedef typename  Iterator::iterator_category iterator_category;
+	};
+	template <class T> class iterator_traits<T*>
+	{
+			typedef  T value_type;
+			typedef ptrdiff_t difference_type;
+			typedef	T*	pointer;
+			typedef T&	reference;
+			typedef random_access_iterator_tag iterator_category;
+	};
+	template <class T> class iterator_traits<const T*>
+	{
+			typedef  const T value_type;
+			typedef ptrdiff_t difference_type;
+			typedef	const T*	pointer;
+			typedef const T&	reference;
+			typedef random_access_iterator_tag iterator_category;	
+	};
 	template <class Category, class T, class Distance = ptrdiff_t,
 			 class Pointer = T*, class Reference = T&>
 				 struct iterator {
@@ -25,14 +52,15 @@ namespace ft
 				 };
 
 	template <typename T>
-		class random_access_iterator :   iterator<random_access_iterator_tag, T>
+		class random_access_iterator :    public iterator_traits<iterator<random_access_iterator_tag, T> >
 	{
+		public:
 		typedef typename iterator<random_access_iterator_tag,T>::pointer pointer;
 		typedef typename iterator<random_access_iterator_tag,T>::reference reference;
+		typedef typename iterator<random_access_iterator_tag,T>::value_type value_type;
 		private:
 		pointer elem;
 		public:
-		typedef typename iterator<random_access_iterator_tag,T>::value_type value_type;
 		random_access_iterator(void)
 		{
 			elem =0;
@@ -98,10 +126,12 @@ namespace ft
 			temp.elem = elem ;
 			elem += 1;
 			return temp;
-		}	
-		reference operator=(const reference cpy)
+		}
+		template<typename S>	
+		random_access_iterator &operator=(random_access_iterator<S> cpy)
 		{
-			elem = cpy.elem;
+			elem = (cpy.operator->());
+			return *this;
 		}
 		reference operator[](int i)
 		{
@@ -114,6 +144,7 @@ namespace ft
 			else
 				return 1;
 		}
+
 		pointer getAddr(void)
 		{
 			return elem;
@@ -122,34 +153,11 @@ namespace ft
 		{
 			return *(this->elem) ;
 		}
-		reference operator->(void)
+		pointer operator->(void)
 		{
-			return *(this->elem) ;
+			return (this->elem) ;
 		}
-		// bool operator==(random_access_iterator<const T> &x) const
-		// {
-		// if (this->elem == x.elem)
-		// return 1;
-		// else
-		// return 0;
-		// }
-		// bool operator==(random_access_iterator<const T> &x)
-		// {
-		// if (this->elem == x.elem)
-		// return 1;
-		// else
-		// return 0;
-		// }
-		// bool operator==(random_access_iterator const& x) const
-		// {
-		// if (this->elem == x.elem)
-		// return 1;
-		// else
-		// return 0;
-		// }
-		//
-		//
-		//
+
 		template <typename S, typename Q>
 			friend bool operator<=(random_access_iterator<S> const &x,random_access_iterator<Q> const& y) 
 			{
@@ -204,96 +212,128 @@ namespace ft
 	{
 		typedef typename iterator<rev_random_access_iterator_tag,T>::pointer pointer;
 		typedef typename iterator<rev_random_access_iterator_tag,T>::reference reference;
+		typedef  random_access_iterator<T> iterator;
 		private:
-		T *elem;
-
+		// T *elem;
+		iterator it;
 		public:
 		rev_random_access_iterator(void)
 		{
-			elem =0;
+			// elem =0;
+			it = 0;
 		}
 		rev_random_access_iterator(const rev_random_access_iterator &cpy)
 		{
-			elem = cpy.elem;
+			// elem = cpy.elem;
+			it = cpy.it;
 		}
 		rev_random_access_iterator(T *point)
 		{
-			elem = point;
+			// elem = point;
+			it = iterator(point);
 		}
 		rev_random_access_iterator  operator--(int)
 		{
-			rev_random_access_iterator temp;
-			temp.elem = elem + 1;
-			elem +=1;
+			rev_random_access_iterator temp = *this;
+			it++;
 			return temp;
+			// rev_random_access_iterator temp;
+			// temp.elem = elem + 1;
+			// elem +=1;
+			// return temp;
+		}
+		reference operator[](int i )
+		{
+			return it[i];
 		}
 		rev_random_access_iterator  &operator+(int &i)
 		{
-			return rev_random_access_iterator(elem + i);
+			// return rev_random_access_iterator(elem + i);
+			return it - i;
 		}
 		rev_random_access_iterator  &operator-(int &i)
 		{
-			return rev_random_access_iterator(elem - i);
+			return it + i;
+			// return rev_random_access_iterator(elem - i);
 		}
 		rev_random_access_iterator  &operator-(rev_random_access_iterator &cpy)
 		{
-			return rev_random_access_iterator((elem - cpy.elem) / sizeof(T));
+
+			return it - cpy.it;
+			// return rev_random_access_iterator((elem - cpy.elem) / sizeof(T));
 		}
 		rev_random_access_iterator  &operator++(void)
 		{
-
-			elem = elem - 1;
+			--it;
 			return *this;
+			// elem = elem - 1;
+			// return *this;
 		}
 		rev_random_access_iterator  &operator--(void)
 		{
-			elem = elem + 1;
+			++it;
 			return *this;
-		}	
+			// elem = elem + 1;
+			// return *this;
+		}
+		iterator base() const
+		{
+			return it;
+		}
 		rev_random_access_iterator  operator++(int)
 		{
-			rev_random_access_iterator temp;
-			temp.elem = elem -1;
-			elem -= 1;
+			rev_random_access_iterator temp = *this;
+			it--;
 			return temp;
+			// rev_random_access_iterator temp;
+			// temp.elem = elem -1;
+			// elem -= 1;
+			// return temp;
 		}	
 		reference operator=(const reference cpy)
 		{
-			elem = cpy.elem;
+			it = cpy;
+			// elem = cpy.elem;
 		}
 		bool operator!=(rev_random_access_iterator const & cpy) const
 		{
-			if (elem == cpy.elem)
-				return 0;
-			else
-				return 1;
+			return it != cpy.it;
+			// if (elem == cpy.elem)
+				// return 0;
+			// else
+				// return 1;
 		}
 		pointer getAddr(void)
 		{
-			return elem;
+			return it.elem;
 		}
 		T operator*(void)
 		{
-			return *(this->elem) ;
+			return *it;
+			// return *(this->elem) ;
 		}
 		T operator->(void)
 		{
-			return *(this->elem) ;
+			return it->elem;
+			// return *(this->elem) ;
 		}
 		bool operator==(rev_random_access_iterator<T> & x)
 		{
-			if (this->elem == x.elem)
-				return 1;
-			else
-				return 0;
+			return it == x.it;
+			// if (this->elem == x.elem)
+				// return 1;
+			// else
+				// return 0;
 		}
 		bool operator!=(rev_random_access_iterator<T> & x)
 		{
-			if (this->elem == x.elem)
-				return 0;
-			else
-				return 1;
+			return it != x.it;
+			// if (this->elem == x.elem)
+				// return 0;
+			// else
+				// return 1;
 		}
 	};
 }
-#endif
+
+#endif 

@@ -195,23 +195,66 @@ class node
 		}
 
 	}
+	bool heavy_right(void)
+	{
+
+		if (s_right - 1 > s_left)
+		{
+			return true;
+		}
+		return false;
+	}
+	bool heavy_left(void)
+	{
+		if (s_left - 1 > s_right)
+		{
+			return true;
+		}
+		return false;
+	}
+	void	find_balance(void)
+	{
+		if (heavy_right())
+		{
+			if (right->heavy_right() || right->heavy_left())
+				right->find_balance();
+			else
+				left_rotation();
+		}
+		else if (heavy_left())
+		{
+			if (left->heavy_right() || left->heavy_left())
+				left->find_balance();
+			else
+				right_rotation();
+		}
+	}
+	void	find_erase_balance(Key const k)
+	{
+
+		if (Compare()(getKey(),k))
+		{
+			right->find_erase_balance(k);
+
+		}
+	}
 	void	balance(void)
 	{
 
-		// std::cout<<"before penis s_left = "<< s_left <<"s_ritght ="<<s_right<<"\n";
+		std::cout<<"key = "<<getKey()<<"before penis s_left = "<< s_left <<"s_ritght ="<<s_right<<"\n";
 		if (s_right - 1 > s_left)
 		{
-			// std::cout<<"penis one "<<getKey()<<"\n";
+			std::cout<<"penis one "<<getKey()<<"\n";
 			left_rotation();
-			// std::cout<<"top ="<<top->getKey()<<std::endl	;
-			// std::cout<<"penis s_left = "<< s_left <<"s_ritght ="<<s_right<<"\n";
+			//std::cout<<"top ="<<top->getKey()<<std::endl	;
+			// //std::cout<<"penis s_left = "<< s_left <<"s_ritght ="<<s_right<<"\n";
 			//
 			// std::cout<<"top penis s_left = "<< top->s_left <<"s_ritght ="<<top->s_right<<"\n";
 		}
 		else if (s_left - 1 > s_right)
 		{
 
-			// std::cout<<"penis two"<<getKey()<<"\n";
+			std::cout<<"penis two"<<getKey()<<"\n";
 			right_rotation();
 		}
 	}
@@ -402,10 +445,13 @@ class node
 			if(Compare()(top->getKey(),getKey()))
 			{
 				top->right = temp;
+
+				top->s_right = top->s_right -1;
 			}
 			else
 			{
 				top->left = temp; 
+				top->s_left = top->s_left -1;
 			}
 			temp->top = top;
 		}
@@ -414,31 +460,49 @@ class node
 			temp->top = 0;
 			*head = temp;
 		}
-			temp->right = right;
-			if (right)
-				right->top = temp;
-			// std::cout<<"ici p ="<<p->first<<" "<<p->second<<std::endl;
-			p_alloc.destroy(p);
-			p_alloc.deallocate(p,1);
-			_alloc.destroy(this);
-			_alloc.deallocate(this,1);
-		}
+		temp->right = right;
 
-	
-	void	erase(node **head)
+		if (right)
+			right->top = temp;
+		// std::cout<<"ici p ="<<p->first<<" "<<p->second<<std::endl;
+		p_alloc.destroy(p);
+		p_alloc.deallocate(p,1);
+		_alloc.destroy(this);
+		_alloc.deallocate(this,1);
+	}
+
+	void erase_setSize(node * end)
 	{
+		if(getKey() == end->getKey())
+		{
+			s_left = std::max(left->s_left,right->s_right);
+			return;
+		}
+		if (right == 0)
+			s_right = 0;
+		else
+		{
+			s_right = std::max(right->s_left,right->s_right) ;
+		}
+		top->erase_setSize(end);
+	}
+	node*	erase(node **head)
+	{
+		node * to_return = top;
 		if(left== 0 &&right == 0)
 		{
-			// std::cout<<" erase left == 0 right == 0\n";
+			//std::cout<<" erase left == 0 right == 0\n";
 			if(top !=0)
 			{
 				if (Compare()(top->getKey(),getKey()))
 				{
 					top->right = 0;
+					top->s_right = 0;
 				}
 				else
 				{
 					top->left = 0;
+					top->s_left = 0;
 				}
 			}
 			else
@@ -449,29 +513,38 @@ class node
 			p_alloc.deallocate(p,1);
 			_alloc.destroy(this);
 			_alloc.deallocate(this,1);
+			return top;
 		}
 		else if(left==0)
 		{
-
-			// std::cout<<"   left == 0\n";
+			//std::cout<<"   left == 0\n";
 			if ( top != 0)
 			{
 
-				// std::cout<<"   left == 0 top != 0\n";
+				//std::cout<<"   left == 0 top != 0\n";
 				if(Compare()(top->getKey(),getKey()))
 				{
+
+					//std::cout<<" if  top key<<="<<top->getKey()<<"key = "<<getKey()<<std::endl;
 					top->right = right;
+
+					top->s_right = top->s_right - 1;
 					right->top = top;
 				}
 				else
 				{
+
+					//std::cout<<" else  top key<<="<<top->getKey()<<"key = "<<getKey()<<std::endl;
 					top->left = right; 
+					top->s_left = top->s_left - 1;
 					right->top = top; 
+
+					//std::cout<<"end\n"; 
 				}
 			}
 			else
 			{
-				// std::cout<<" erase left == 0 top == 0\n";
+				//std::cout<<" erase left == 0 top == 0\n";
 				right->top = 0;
 				*head = right;
 
@@ -480,6 +553,9 @@ class node
 			p_alloc.deallocate(p,1);
 			_alloc.destroy(this);
 			_alloc.deallocate(this,1);
+
+			//std::cout<<"end2\n"; 
+			return to_return;
 		}
 		else if (right == 0)
 		{
@@ -491,11 +567,13 @@ class node
 				{
 					top->right = left;
 					left->top = top;
+					top->s_right = top->s_right - 1;
 				}
 				else
 				{
 					top->left = left; 
 					left->top = top;
+					top->s_left = top->s_left - 1;
 				}
 			}
 			else
@@ -507,34 +585,50 @@ class node
 			p_alloc.deallocate(p,1);
 			_alloc.destroy(this);
 			_alloc.deallocate(this,1);
+			return to_return;
 		}
 		else
 		{
+			std::cout<<"ici\n";
 			node * temp;
 			temp = left;
 			if( temp->right == 0)
 			{
 				erase_bis(temp,head);
-				return ;
+				return temp;
 			}
-				while (temp->right !=0)
+			while (temp->right !=0)
 				temp=temp->right;
-			// std::cout<<"noeud pleins, temp key = "<<temp->getKey()<<std::endl;
+			temp->top->s_right = temp->top->s_right - 1;
+			temp->top->top->erase_setSize(this);
+			std::cout<<"noeud pleins, temp key = "<<temp->getKey()<<std::endl;
 			// std::cout<<"noeud pleins, head key = "<<(*head)->getKey()<<std::endl;
 			if (top!= 0)
 			{
+
+			std::cout<<"noeud pleins, top key = "<<top->getKey()<<std::endl;
 				if(Compare()(top->getKey(),getKey()))
 				{
 					top->right = temp;
+
+					top->s_right = top->s_right - 1;
 				}
 				else
 				{
 					top->left = temp; 
+
+					top->s_left = top->s_left - 1;
 				}
 				if(temp->left!=0)
 				{
 					temp->top->right = temp->left;
+
+			
 					temp->left->top =temp->top; 
+
+			std::cout<<"noeud pleins,  temp left  = "<<temp->left->getKey()<<std::endl;
+			std::cout<<"noeud pleins,  temp left top = "<<temp->left->top->getKey()<<std::endl;
+			std::cout<<"noeud pleins,  temp  top = "<<temp->top->getKey()<<std::endl;
 				}
 				else
 				{
@@ -543,10 +637,13 @@ class node
 				temp->left = left;
 				temp->right = right;
 				temp->top = top;
+				temp->s_right = s_right;
+				temp->s_left = s_left;
 				p_alloc.destroy(p);
 				p_alloc.deallocate(p,1);
 				_alloc.destroy(this);
 				_alloc.deallocate(this,1);
+				return temp;
 			}
 			else
 			{
@@ -593,6 +690,7 @@ class node
 				// std::cout<<"erase noeud pleins top ==0 after0.75 left = "<<temp->getKey()<<" \n ";
 				if (left)
 					left->top = temp;
+				temp->s_right = s_right;
 				// std::cout<<"erase noeud pleins top ==0 after1\n ";
 				temp->right = right;
 				// std::cout<<"erase noeud pleins top ==0 after2\n ";
@@ -608,6 +706,7 @@ class node
 				_alloc.destroy(this);
 				// std::cout<<"erase noeud pleins top ==0 after6\n ";
 				_alloc.deallocate(this,1);
+				return temp;
 			}
 			// *p = *(temp->p);
 			//
@@ -643,14 +742,20 @@ class node
 	}
 	void	left_rotation()
 	{
-		// std::cout<<"la?\n";
+		// std::cout<<"start left roration?\n";
 		node * temp = right->left;
 		s_right = right->s_left;
 		size = std::max(s_left,s_right);
 		right->s_left = s_left + 1;
 		right->size = std::max(right->s_left,right->s_right);
 		if ( top == 0)
+
+		{
+
+		// std::cout<<"top = 0\n";
 			right->top = top;
+		
+		}
 		else if (Compare()(top->getKey(),getKey()))
 		{
 
@@ -751,6 +856,10 @@ template <class Key, class T, class Compare = std::less<Key>,
 		key_compare kc;
 		unsigned int _size;
 	public :
+		node<const Key,T,Allocator> *getHead()
+		{
+			return head;
+		}
 		class value_compare : Compare
 	{
 		bool operator()(value_type const &a, value_type const &b)
@@ -772,14 +881,28 @@ template <class Key, class T, class Compare = std::less<Key>,
 		template <class InputIterator>
 			map(typename enable_if<typename is_same< typename is_integral<InputIterator>::value, std::false_type>::value,InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 			{
+
 				kc = comp;
 				_alloc = alloc;
-				(void)last;
-				while(first->getTop() != NULL)
+				_size = 0;
+				head = 0;
+				// (void)last;
+				// while(first->getTop() != NULL)
+				// {
+				// first++;
+				// }
+				// head->rec(*first);
+
+
+				while(first != last)
 				{
+					std::cout<<*first<<std::endl;
+
+					insert(*first);
+
 					first++;
 				}
-				head->rec(*first);
+
 
 
 			}
@@ -799,6 +922,8 @@ template <class Key, class T, class Compare = std::less<Key>,
 			// temp = first.getAddr();
 			// head->rec(temp);
 			head->rec(first.getAddr());
+			_size = x._size;
+
 		}
 		map& operator= (const map& x)
 		{
@@ -901,18 +1026,58 @@ template <class Key, class T, class Compare = std::less<Key>,
 		}
 		void erase (iterator position)
 		{
-			head->set_size((*position).first);
-			position.getAddr()->erase(&head);	
+			node<const Key, T, Allocator> *temp;
+
+			 int i = 0;
+				for(iterator it = begin();it != end();it++)
+				{
+					 std::cout<<*it<<"////////\n";
+				i++;
+					if (i>30)
+					break;
+				}
+			temp = position.getAddr()->erase(&head);
+			// std::cout<<"erase position before while "<<(head)->getKey()<<"right,left = "<<(head)->getSright()<<" "<<(head)->getSleft()<<"\n";
+			// print_tree();
+			while(temp != 0)
+			{
+
+			// std::cout<<"la "<<temp->getKey()<<"right,left = "<<temp->getSright()<<" "<<temp->getSleft()<<"\n";
+				print_tree();
+
+			  i = 0;
+				for(iterator it = begin();it != end();it++)
+				{
+					 std::cout<<*it<<"\n";
+				i++;
+					if (i>30)
+					break;
+				}
+				temp->balance();
+				while (head->getTop() !=0)
+				{
+
+					// std::cout<<"la\n";
+					head = head->getTop();
+				}
+				// std::cout<<"after balance \n";
+			// print_tree();
+				temp = temp->getTop();
+				// std::cout<<"la4 \n";
+			}
 			_size--;
+			if (_size == 0)
+				head = 0;
 		}
 		size_type erase (const key_type& k)
 		{
 			iterator it = find(k);
 			if (it!= end())
 			{
-				head->set_size(k);
-				it.getAddr()->erase(&head);
-				_size--;
+				erase(it);
+				// head->set_size(k);
+				// it.getAddr()->erase(&head);
+				// _size--;
 				return 1;
 			}
 			else 
@@ -920,21 +1085,33 @@ template <class Key, class T, class Compare = std::less<Key>,
 		}
 		void erase (iterator first, iterator last)
 		{
-			while(first!= last)
+			iterator temp;
+			// std::cout<<"la "<<first->first<<"\n";
+
+			// std::cout<<"la "<<last->first<<"\n";
+			while(first!= last )
 			{
-				// std::cout<<"la "<<first->first<<"\n";
-				// print_tree();
-				head->set_size((*first).first);
-				first.getAddr()->erase(&head);
-				_size--;
-				first++;
+				temp = first++;	 
+				// std::cout<<"laavnt first"<<first->first<<"\n";
+				// std::cout<<"apres first"<<first->first<<"\n";
+				// std::cout<<"la temp"<<temp->first<<"\n";
+				//std::cout<<"la first"<<first->first<<"\n";
+				erase(temp);
 			}
+			// while(first!= last)
+			// {
+			// // std::cout<<"la "<<first->first<<"\n";
+			// // print_tree();
+			// head->set_size((*first).first);
+			// first.getAddr()->erase(&head);
+			// _size--;
+			// first++;
+			// }
 			// print_tree();
 		}
 
 		pair<iterator,bool> insert (const value_type& val)
 		{
-			// std::cout<<"insert debs \n";
 
 			if (head != 0)
 			{
@@ -958,8 +1135,8 @@ template <class Key, class T, class Compare = std::less<Key>,
 		{
 			(void)position;
 			pair<iterator,bool> temp= (insert(val));
-			if (temp.gets() == 1)
-				_size++;
+			// if (temp.second == 1)
+			// _size++;
 			while (head->getTop() !=0)
 				head = head->getTop();
 			return temp.getF();
@@ -972,12 +1149,19 @@ template <class Key, class T, class Compare = std::less<Key>,
 			{
 				for (;first!= last;first++)
 				{
-					if ((head->insert(first->p).second == 1))
-						_size++;
+					//std::cout<<"ici\n";
+					insert(*first);
+					// if (((head->insert(*first)).second == 1))
+					// _size++;
+				}
+				while (head->getTop() !=0)
+				{
+
+					//std::cout<<"la\n";
+					head = head->getTop();
 				}
 
-				while (head->getTop() !=0)
-					head = head->getTop();
+				//std::cout<<"penis\n";
 			}
 		mapped_type& operator[] (const key_type& k)
 		{
@@ -1079,14 +1263,21 @@ template <class Key, class T, class Compare = std::less<Key>,
 		}
 		const_iterator upper_bound (const key_type& k) const
 		{
+
+			// std::cout<<"begin upper_bound 0 \n";
 			iterator it = begin();
+
+			//std::cout<<"begin upper_bound  \n";
 			for(; it!= end(); it++)
 			{
+
+				//std::cout<<"in for upper_bound  \n";
 				if (!(Compare()(it->first,k)) && it->first != k)
 				{
 					return const_iterator(it);
 				}
 			}
+			//std::cout<<"end_upper bound  \n";
 			return const_iterator(it);
 		}
 		pair<const_iterator,const_iterator>	equal_range (const key_type& k) const
@@ -1105,13 +1296,21 @@ template <class Key, class T, class Compare = std::less<Key>,
 		pair<iterator,iterator>				equal_range (const key_type& k)
 		{
 			node<const Key,T,Allocator> *temp;
+
+			// std::cout<<"before find\n";
 			temp = head->find(k);
+			// if(temp)
+			// std::cout<<"after find"<<temp->getKey()<<"\n";
 			if(temp == 0)
 			{
+
+				// std::cout<<"temp == 0 \n";
 				return pair<iterator, iterator>(upper_bound(k),upper_bound(k));
 			}
 			else
 			{
+
+				// std::cout<<"temp != 0 \n";
 				return pair<iterator, iterator>(iterator(temp),upper_bound(k));
 			}
 		}
@@ -1224,4 +1423,5 @@ template <class Key, class T, class Compare = std::less<Key>,
 			std::cout<<"\n";
 		}
 };
+
 #endif

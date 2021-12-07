@@ -69,13 +69,17 @@ namespace ft
 		}
 		bidirectional_iterator(const bidirectional_iterator &cpy)
 		{
+			// std::cout<<"penis de fer\n";
 			elem = cpy.elem;
 			end = cpy.end;
 		}
 		bidirectional_iterator(pointer point, bool e = 0)
 		{
+			// if(point)
+				// std::cout<<"penis de bois"<<point->getKey()<<"\n";
 			elem = point;
 			end =e; 
+
 		}
 		bidirectional_iterator  operator--(int)
 		{
@@ -350,14 +354,21 @@ namespace ft
 			friend bool operator==(bidirectional_iterator<S,Key,mapped,A> const &x,bidirectional_iterator<Q,Key,mapped,B> const& y) 
 			{
 				if (x.elem == y.elem && x.end == y.end)
+				{
 					return 1;
+				}
 				else
+				{
+
 					return 0;
+				}
 			}
-		bool operator!=(bidirectional_iterator<T,Key,mapped,fpair> & x)
-		{
-			return !(*this==x);
-		}
+		// bool operator!=(bidirectional_iterator<T,Key,mapped,fpair> & x)
+		// {
+//
+			// std::cout<<"ta mere22"<<"\n";
+			// return !(*this==x);
+		// }
 	};
 	template <  typename  T,class Key,class mapped,class fpair,class Compare = std::less< Key> > 
 		class rev_bidirectional_iterator :   iterator_traits<iterator<rev_bidirectional_iterator_tag, T> >

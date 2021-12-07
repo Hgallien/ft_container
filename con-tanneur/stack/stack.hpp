@@ -1,3 +1,5 @@
+#ifndef STACK_HPP
+#define STACK_HPP
 #include <memory>
 #include "Iterator.hpp"
 #include "vector.hpp"
@@ -16,14 +18,15 @@ class stack
 		typedef typename container_type::reference       reference;
 		typedef typename container_type::const_reference const_reference;
 		typedef typename container_type::size_type       size_type;
-		explicit stack (const container_type& ctnr = container_type())
+		explicit stack (const container_type& ctnr = container_type()) : s(ctnr)
 		{
-			// std::cout<<"dans construct \n";
-			s = ctnr;
-			// std::cout<<"dans construct end\n";
+			// std::cout<<"construct stacl\n";
+			// s = ctnr;
 		}
 		 ~stack()
-		 {};
+		 {
+			s.clear();
+		 };
 
 		
 		bool empty() const
@@ -81,3 +84,5 @@ class stack
 		}
 
 };
+
+#endif 

@@ -31,7 +31,7 @@ fclean:
 	$(RM) $(OBJECTS) $(DEPENDS) $(NAME)
 # Linking the executable from the object files
 $(NAME): $(OBJECTS)
-	$(CXX) $(WARNING) $(CXXFLAGS) $^   -o $@
+	$(CXX) $(WARNING) $(CXXFLAGS) $^  -o $@
 
 
 -include $(DEPENDS)

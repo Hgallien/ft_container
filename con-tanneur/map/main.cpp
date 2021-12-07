@@ -1,6 +1,8 @@
 #include "map.hpp"
 #include <iostream>
-#include "test_map.hpp"
+#include <fstream>
+#include "test_main.hpp"
+#include "stl_test_main.hpp"
 
 #include <cstdlib>
 
@@ -25,7 +27,6 @@ void print_all(Iterator first, Iterator last) {
     if (it != first)
       std::cout << ", ";
     std::cout << *it;
-
   std::cout<<"for print all"<< *last<<"\n";
   }
   std::cout<<"end print all\n";
@@ -394,9 +395,79 @@ void test() {
 	print_container_nl(m_assign);
 
 }
+
+	struct A {
+	A() {
+		m = new int();
+	}
+	A(const int a) {
+		m = new int();
+		*m =a;
+	}
+	A(A const & x) {
+		m = new int();
+		*m = *x.m;
+	}
+	A & operator=(A const & x) {
+		*m = *x.m;
+		return *this;
+	}
+	A & operator=(int n) {
+		*m = n;
+		return *this;
+	}
+	~A() {
+		delete m;
+	}
+	friend bool operator==(A const &base,A const &cpy)
+	{
+		if (*(cpy.m) == *(base.m))
+			return 1;
+		else
+			return 0;
+	}
+	friend bool operator<(A const &base,A const &cpy)
+	{
+		if (*(base.m) < *(cpy.m))
+			return 1;
+		else
+			return 0;
+	}
+	friend bool operator>(A const &base,A const &cpy)
+	{
+		if (*(base.m) > *(cpy.m))
+			return 1;
+		else
+			return 0;
+	}
+	friend bool operator!=(A const &base,A const &cpy)
+	{
+			return !(base == cpy );
+	}
+	friend std::ostream & operator<<(std::ostream & os, A const & a) {
+		return os << *a.m;
+	}
+
+	int *m;
+};
+
 int main()
 {
 
+	
+	std::ofstream std_file;
+	std::ofstream mine_file;
+	
+	std_file.open("std_out", std::ios::out);
+	mine_file.open("mine_out", std::ios::out);
+	test_constructor_assignastion<const int,int>(mine_file);
+	test_erase_find_bound<const int,int>(mine_file);
+
+	// stl_test_constructor_assignastion<const int,int>(std_file);
+	// stl_test_erase_find_bound<const int,int>(std_file);
+	// stl_test_constructor_assignastion<const int,int>(std_file);
+	mine_file.close();
+	std_file.close();
 //
 	// map< char, int> m;
 //
@@ -440,7 +511,7 @@ int main()
 	// // std::cout<<"test main4\n";
 	// // m.print_tree();
 	// // std::cout<<"test main5\n";
-	map<char,int> mymap;
+	// map<char,int> mymap;
 	// // std::cout<<"test main5.5\n";
 	// // map<char,int>::iterator itlow,itup;
 	// // std::cout<<"test main5.75\n";
@@ -582,16 +653,16 @@ int main()
 //
 	// mymap.print_tree();
 	//
-	map<int,int>  map_c;
-	map<int,int> const map_test;
-
-		map<char,int>::iterator it_test;
-
-		map<int,int>::iterator it;
-	map<int,int>::const_iterator it_c;
-	it_c = map_c.begin();
-	it = it_c;
-	it = it_c;
+	// map<int,int>  map_c;
+	// map<int,int> const map_test;
+//
+		// map<char,int>::iterator it_test;
+//
+		// map<int,int>::iterator it;
+	// map<int,int>::const_iterator it_c;
+	// it_c = map_c.begin();
+	// it = it_c;
+	// it = it_c;
 	// std::cout << it_test->first << " => " << it_test->second << "end ="<<it_test.getEnd()<<'\n';
 	// it_test++;
 // std::cout << it_test->first << " => " << it_test->second << "end ="<<it_test.getEnd()<<'\n';
