@@ -463,8 +463,19 @@ int main()
 	test_constructor_assignastion<const int,int>(mine_file);
 	test_erase_find_bound<const int,int>(mine_file);
 
-	// stl_test_constructor_assignastion<const int,int>(std_file);
-	// stl_test_erase_find_bound<const int,int>(std_file);
+	test_iterator<const int,int>(mine_file);
+	test_constructor_assignastion<const int,A>(mine_file);
+	test_erase_find_bound<const int,A>(mine_file);
+
+	test_iterator<const int,A>(mine_file);
+	stl_test_constructor_assignastion<const int,int>(std_file);
+
+	stl_test_erase_find_bound<const int,int>(std_file);
+	
+	stl_test_iterator<const int,int>(std_file);
+	stl_test_constructor_assignastion<const int,A>(std_file);
+	stl_test_erase_find_bound<const int,A>(std_file);
+	stl_test_iterator<const int,A>(std_file);
 	// stl_test_constructor_assignastion<const int,int>(std_file);
 	mine_file.close();
 	std_file.close();

@@ -589,7 +589,7 @@ class node
 		}
 		else
 		{
-			std::cout<<"ici\n";
+			// std::cout<<"ici\n";
 			node * temp;
 			temp = left;
 			if( temp->right == 0)
@@ -601,12 +601,12 @@ class node
 				temp=temp->right;
 			temp->top->s_right = temp->top->s_right - 1;
 			temp->top->top->erase_setSize(this);
-			std::cout<<"noeud pleins, temp key = "<<temp->getKey()<<std::endl;
+			// std::cout<<"noeud pleins, temp key = "<<temp->getKey()<<std::endl;
 			// std::cout<<"noeud pleins, head key = "<<(*head)->getKey()<<std::endl;
 			if (top!= 0)
 			{
 
-			std::cout<<"noeud pleins, top key = "<<top->getKey()<<std::endl;
+			// std::cout<<"noeud pleins, top key = "<<top->getKey()<<std::endl;
 				if(Compare()(top->getKey(),getKey()))
 				{
 					top->right = temp;
@@ -626,9 +626,9 @@ class node
 			
 					temp->left->top =temp->top; 
 
-			std::cout<<"noeud pleins,  temp left  = "<<temp->left->getKey()<<std::endl;
-			std::cout<<"noeud pleins,  temp left top = "<<temp->left->top->getKey()<<std::endl;
-			std::cout<<"noeud pleins,  temp  top = "<<temp->top->getKey()<<std::endl;
+			// std::cout<<"noeud pleins,  temp left  = "<<temp->left->getKey()<<std::endl;
+			// std::cout<<"noeud pleins,  temp left top = "<<temp->left->top->getKey()<<std::endl;
+			// std::cout<<"noeud pleins,  temp  top = "<<temp->top->getKey()<<std::endl;
 				}
 				else
 				{
@@ -639,6 +639,8 @@ class node
 				temp->top = top;
 				temp->s_right = s_right;
 				temp->s_left = s_left;
+				temp->left->top = temp;
+				temp->right->top = temp;
 				p_alloc.destroy(p);
 				p_alloc.deallocate(p,1);
 				_alloc.destroy(this);
@@ -697,7 +699,8 @@ class node
 				temp->top = top;
 				// std::cout<<"erase noeud pleins top ==0 after3\n ";
 				*head = temp;
-
+				temp->left->top = temp;
+				temp->right->top = temp;
 				// std::cout<<"erase noeud pleins top ==0 after3\n ";
 				p_alloc.destroy(p);
 				// std::cout<<"erase noeud pleins top ==0 after4\n ";
@@ -1028,14 +1031,14 @@ template <class Key, class T, class Compare = std::less<Key>,
 		{
 			node<const Key, T, Allocator> *temp;
 
-			 int i = 0;
-				for(iterator it = begin();it != end();it++)
-				{
-					 std::cout<<*it<<"////////\n";
-				i++;
-					if (i>30)
-					break;
-				}
+			 // int i = 0;
+				// for(iterator it = begin();it != end();it++)
+				// {
+					 // std::cout<<*it<<"////////\n";
+				// i++;
+					// if (i>30)
+					// break;
+				// }
 			temp = position.getAddr()->erase(&head);
 			// std::cout<<"erase position before while "<<(head)->getKey()<<"right,left = "<<(head)->getSright()<<" "<<(head)->getSleft()<<"\n";
 			// print_tree();
@@ -1043,16 +1046,16 @@ template <class Key, class T, class Compare = std::less<Key>,
 			{
 
 			// std::cout<<"la "<<temp->getKey()<<"right,left = "<<temp->getSright()<<" "<<temp->getSleft()<<"\n";
-				print_tree();
+				// print_tree();
 
-			  i = 0;
-				for(iterator it = begin();it != end();it++)
-				{
-					 std::cout<<*it<<"\n";
-				i++;
-					if (i>30)
-					break;
-				}
+			  // i = 0;
+				// for(iterator it = begin();it != end();it++)
+				// {
+					 // std::cout<<*it<<"\n";
+				// i++;
+					// if (i>30)
+					// break;
+				// }
 				temp->balance();
 				while (head->getTop() !=0)
 				{

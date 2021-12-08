@@ -17,6 +17,57 @@ void print_map_ez(map<K,C> &m)
 	}
 	std::cout<<"\n";
 }
+
+template <typename K,typename C>
+void	test_iterator(std::ofstream &out)
+{
+	map<K,C> m;
+	for (int i = 0 ; i<100; i++)
+	{
+			m.insert(pair<K,C>(K(i),C(i)));
+	}
+
+	typename map<K,C>::iterator it = m.begin();
+
+	typename map<K,C>::iterator it2 = m.begin();
+	it2++;
+	out << "*it = " << *it << std::endl;
+  // operator++
+  out << "++it = " << *(++it) << ", now *it = " << *it << std::endl;
+  // operator++(int)
+  out << "it++ = " << *(it++) << ", now *it = " << *it << std::endl;
+  // operator--
+  out << "--it = " << *(--it) << ", now *it = " << *it << std::endl;
+  // operator--
+  out << "it-- = " << *(it--) << ", now *it = " << *it << std::endl;
+// operator==
+  out << "it == it : " << (it == it) << std::endl;
+  out << "it == (it + 1) : " << (it == (it2)) << std::endl;
+  // operator!=
+  out << "it != (it + 1) : " << (it != (it2 )) << std::endl;
+  out << "it != it : " << (it != it) << std::endl;
+
+  out << "Mutable iterator" << std::endl;
+  for (typename map<K,C>::iterator it = m.begin(); it != m.end(); ++it)
+    out << *it << ", ";
+  out << "END" << std::endl;
+
+  out << "Mutable reverse iterator" << std::endl;
+  for (typename map<K,C>::reverse_iterator it = m.rbegin(); it != m.rend(); ++it)
+    out << *it << ", ";
+  out << "END" << std::endl;
+
+  map<K,C> const cIntVect(m);
+  out << "Const iterator" << std::endl;
+  for (typename map<K,C>::const_iterator it = cIntVect.begin(); it != cIntVect.end(); ++it)
+    out << *it << ", ";
+  out << "END" << std::endl;
+
+  out << "Reverse const iterator" << std::endl;
+  for (typename map<K,C>::const_reverse_iterator it = cIntVect.rbegin(); it != cIntVect.rend(); ++it)
+    out << *it << ", ";
+  out << "END" << std::endl;
+}
 template<typename K,typename C>
 void print_map_ez(map<K,C> &m, std::ofstream& out)
 {
@@ -126,81 +177,82 @@ void	test_erase_find_bound(std::ofstream &out)
 
 	std::cout<<"test erase key\n";
 	map<K,C> m2;
-	for(int i = 0; i<20;i++)
+	for(int i = 0; i<200;i++)
 	{
 
 		m2.insert(pair<K,C>(K(i),C(i)));
 	}
 
-		m2.print_tree();
-	for(int i = 12 ; i < 16; i ++)
+		// m2.print_tree();
+	for(int i = 12 ; i < 25; i ++)
 	{
 
 		// print_map_ez<K,C>(m2);
-		out<<"erase key i ="<<i<<std::endl;
+		// out<<"erase key i ="<<i<<std::endl;
 
-		std::cout<<"erase key i ="<<i<<std::endl;
+		// std::cout<<"erase key i ="<<i<<std::endl;
 		m2.erase(K(i));
-		m2.print_tree();
+		// m2.print_tree();
 
 	print_map_ez<K,C>(m2);
 	// print_map_ez<K,C>(m2);
 	}
-	m2.print_tree();
+	// m2.print_tree();
 	out<<"size after erase key = "<<m2.size()<<std::endl;
-	// print_map_ez<K,C>(m2,out);
 
-	print_map_ez<K,C>(m2);
+	print_map_ez<K,C>(m2,out);
+
+	// print_map_ez<K,C>(m2);
 // //
 //
-	// typename map<K,C>::iterator it_e = m2.end();
-	// for (int i = 0 ; i < 10 ; i++)
-		// it_e--;
-// //
-	// std::cout<<"test erase range\n";
-	// out<<"test erase range\n";
-	// m2.erase(it_e,m2.end());
+	typename map<K,C>::iterator it_e = m2.end();
+	for (int i = 0 ; i < 10 ; i++)
+		it_e--;
 //
-	// print_map_ez<K,C>(m2,out);
-	// std::cout<<"test erase range3\n";
-	// out<<"test find \n";
+	std::cout<<"test erase range\n";
+	out<<"test erase range\n";
+	m2.erase(it_e,m2.end());
+
+	print_map_ez<K,C>(m2,out);
+	std::cout<<"test erase range3\n";
+	out<<"test find \n";
+
+	std::cout<<"test find \n";
+	typename map<K,C>::iterator it;
+	for(int i = 0 ; i < 400; i ++)
+	{
+		std::cout<<" i = "<<i<<"\n";
+		it = m2.find(K(i));
+		if (it != m2.end())
+		{
+			out<<" it "<<*it<<"\n";
+		}
+		else
+		{
+			out<<" not found "<<"\n";
+		 }
+	}
+		std::cout<<" size = "<<m2.size()<<"\n";
+	out<<"test count\n";
+		for(int i = 0 ; i < 189; i ++)
+	{
+
+		std::cout<<"  la  i = "<<i<<std::endl;
+			 out<<"count de "<<i<<"="<<((m2.count(K(i))))<<std::endl;
 //
-	// std::cout<<"test find \n";
-	// typename map<K,C>::iterator it;
-	// for(int i = 0 ; i < 400; i ++)
-	// {
-		// std::cout<<" i = "<<i<<"\n";
-		// it = m2.find(K(i));
-		// if (it != m2.end())
-		// {
-			// out<<" it "<<*it<<"\n";
-		// }
-		// else
-		// {
-			// out<<" not found "<<"\n";
-		 // }
-	// }
-		// std::cout<<" size = "<<m2.size()<<"\n";
-	// out<<"test count\n";
-		// for(int i = 0 ; i < 400; i ++)
-	// {
-//
-		// std::cout<<"  la  i = "<<i<<std::endl;
-			 // out<<"count de "<<i<<"="<<((m2.count(K(i))))<<std::endl;
-// //
-		// // std::cout<<"  la  2i = "<<i<<std::endl;
-			// // out<<"equal range de "<<i<<"="<<(*((m2.equal_range(K(i))).first))<<std::endl;
-			// // out<<"equal range de "<<i<<"="<<(*((m2.equal_range(K(i))).first))<<std::endl;
-			// // m2.equal_range(K(i));
-	// }
-//
-			// out<<"lower bound de "<<100<<"="<<(*(m2.lower_bound(K(100))))<<std::endl;
-			// out<<"lower bound de "<<100<<"="<<(*(m2.lower_bound(K(100))))<<std::endl;
-			// out<<"lower bound de "<<500<<"="<<(*(m2.lower_bound(K(500))))<<std::endl;
-			// out<<"upper bound de "<<500<<"="<<(*(m2.upper_bound(K(500))))<<std::endl;
-			// out<<"upper bound de "<<250<<"="<<(*(m2.upper_bound(K(250))))<<std::endl;
-			// out<<"upper bound de "<<250<<"="<<(*(m2.upper_bound(K(250))))<<std::endl;
-//
+		std::cout<<"  la  2i = "<<i<<std::endl;
+			out<<"equal range de "<<i<<"="<<(*((m2.equal_range(K(i))).first))<<std::endl;
+			out<<"equal range de "<<i<<"="<<(*((m2.equal_range(K(i))).first))<<std::endl;
+			m2.equal_range(K(i));
+	}
+
+			out<<"1 lower bound de "<<100<<"="<<(*(m2.lower_bound(K(100))))<<std::endl;
+			out<<"2 lower bound de "<<100<<"="<<(*(m2.lower_bound(K(100))))<<std::endl;
+			// out<<"3 lower bound de "<<500<<"="<<(*(m2.lower_bound(K(500))))<<std::endl;
+			// out<<"4 upper bound de "<<500<<"="<<(*(m2.upper_bound(K(500))))<<std::endl;
+			// out<<"5 upper bound de "<<250<<"="<<(*(m2.upper_bound(K(250))))<<std::endl;
+			// out<<"6 upper bound de "<<250<<"="<<(*(m2.upper_bound(K(250))))<<std::endl;
+
 }
 
 #endif

@@ -60,7 +60,7 @@ void	test_constructor_assignastion(std::ofstream &out)
 }
 
 	template <typename T>
-void	test_iterator(std::ofstream &out)
+void	stl_test_iterator(std::ofstream &out)
 {
 	vector<T> v;
 	for (int i = 0 ; i<100; i++)
