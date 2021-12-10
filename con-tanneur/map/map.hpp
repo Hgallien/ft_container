@@ -241,10 +241,10 @@ class node
 	void	balance(void)
 	{
 
-		std::cout<<"key = "<<getKey()<<"before penis s_left = "<< s_left <<"s_ritght ="<<s_right<<"\n";
+		// std::cout<<"key = "<<getKey()<<"before penis s_left = "<< s_left <<"s_ritght ="<<s_right<<"\n";
 		if (s_right - 1 > s_left)
 		{
-			std::cout<<"penis one "<<getKey()<<"\n";
+			// std::cout<<"penis one "<<getKey()<<"\n";
 			left_rotation();
 			//std::cout<<"top ="<<top->getKey()<<std::endl	;
 			// //std::cout<<"penis s_left = "<< s_left <<"s_ritght ="<<s_right<<"\n";
@@ -254,7 +254,7 @@ class node
 		else if (s_left - 1 > s_right)
 		{
 
-			std::cout<<"penis two"<<getKey()<<"\n";
+			// std::cout<<"penis two"<<getKey()<<"\n";
 			right_rotation();
 		}
 	}
@@ -845,12 +845,8 @@ template <class Key, class T, class Compare = std::less<Key>,
 		typedef typename allocator_type::difference_type difference_type;
 		typedef typename ft::bidirectional_iterator<node<const Key, T, Allocator>,const Key,T,value_type >		iterator;
 		typedef typename ft::bidirectional_iterator< const node<const Key, T, Allocator> ,const Key,T,const value_type >		const_iterator;
-
 		typedef typename ft::rev_bidirectional_iterator<node<const Key, T, Allocator>,const Key,T,value_type >		reverse_iterator;
 		typedef typename ft::rev_bidirectional_iterator< const node<const Key, T, Allocator> ,const Key,T,const value_type >		const_reverse_iterator;
-		// typedef std::reverse_iterator<iterator>          reverse_iterator;
-		// typedef std::reverse_iterator<const_iterator>    const_reverse_iterator;
-		// typedef INSERT_RETURN_TYPE<iterator, node_type>  insert_return_type;
 		typedef	typename Allocator::template	rebind<node<const Key, T, Allocator> >::other n_Allocator;
 	private :
 		node< const Key, T, Allocator> *head;
@@ -899,7 +895,6 @@ template <class Key, class T, class Compare = std::less<Key>,
 
 				while(first != last)
 				{
-					std::cout<<*first<<std::endl;
 
 					insert(*first);
 
@@ -1322,7 +1317,7 @@ template <class Key, class T, class Compare = std::less<Key>,
 		void	print_tree()
 		{
 
-			std::cout<<"dans print tree\n";
+			// std::cout<<"dans print tree\n";
 			int i = 0;
 			int tour = 0;
 			// std::cout<<"dans print tree1.25"<<head->getKey()<<"\n";

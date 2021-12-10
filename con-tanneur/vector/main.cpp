@@ -209,62 +209,6 @@ void test_swap(T (&array10)[10], T (&array7)[7]) {
 }
 
 int main() {
-	// std::cout << "Test on vector<int>" << std::endl;
-	// int array10_int[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	// int array7_int[7] = {111, 222, 333, 444, 555, 666, 777};
-	// test_with<int>(array10_int, array7_int);
-	// test_assign<int>(array10_int);
-	// test_swap<int>(array10_int, array7_int);
-	// std::deque<int> s;
-	// s.push_back(1);
-	// s.push_back(1);
-	// s.push_back(1);
-	// s.push_back(1);
-	// vector<int> test2;
-	// test2.push_back(4);
-	//
-	// test2.push_back(4);
-	// test2.push_back(4);
-	// test2.push_back(4);
-	// vector<int> test_enable(test2.begin(),test2.end());
-	// std::cout << std::endl;
-	//
-	// std::cout << "Test on vector<A>" << std::endl;
-	// A array10_A[10];
-	// for (int i = 0; i < 10; i++)
-	// {
-	// array10_A[i] = array10_int[i];
-	// }
-	// A array7_A[7];
-	// for (int i = 0; i < 7; i++) array7_A[i] = array7_int[i];
-	//
-	// std::cout << "Test on with" << std::endl;
-	// test_with<A>(array10_A, array7_A);
-	//
-	// std::cout << "Test on assign" << std::endl;
-	// test_assign<A>(array10_A);
-	//
-	// std::cout << "Test on swap" << std::endl;
-	// test_swap<A>(array10_A, array7_A);
-	//
-	// vector<int> test_cp(10,10);
-	//
-	// vector<char> test_c(10,'a');
-	// vector<int>::const_iterator it_c(test_cp.begin() + 1);
-	// vector<int>  map_c;
-	// vector<int> const map_test;
-	//
-	// vector<int>::const_iterator it_c;
-	// vector<int>::iterator it;
-	// it_c = map_c.begin();
-	// it_c= it;
-	// it_c = map_test.begin();
-	//
-	// std::vector<int> v;
-	// std::vector<int>::iterator it3 = v.begin();
-	// std::vector<int>::const_iterator it4 = v.begin();
-	// // it3 = it4;
-	// it4=it3;
 	std::ofstream std_file;
 	std::ofstream mine_file;
 	clock_t t_start_stl;
@@ -279,21 +223,21 @@ int main() {
 	 stl_test_iterator<int>(std_file);
 	 stl_test_modifier<int>(std_file);
 	 stl_test_comparisons<int>(std_file);
+     stl_test_it_validity<int>(std_file) ;
 	std_file<<"TEST STRUCT A\n";
 	stl_test_constructor_assignastion<A>(std_file);
 	 stl_test_iterator<A>(std_file);
 	 stl_test_modifier<A>(std_file);
 	 stl_test_comparisons<A>(std_file);
-
 	 t_start_stl = clock() - t_start_stl;
 	mine_file<<"TEST INT\n";
 
 	 t_start_mine = clock();
-	 test_constructor_assignastion<int>(mine_file);
+	test_constructor_assignastion<int>(mine_file);
 	 test_iterator<int>(mine_file);
 	 test_modifier<int>(mine_file);
 	 test_comparisons<int>(mine_file);
-
+	 test_it_validity<int>(mine_file) ;
 	mine_file<<"TEST STRUCT A\n";
 	test_constructor_assignastion<A>(mine_file);
 	 test_iterator<A>(mine_file);

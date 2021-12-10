@@ -122,30 +122,6 @@ namespace ft
 				return temp ;
 			}
 		}
-		// bidirectional_iterator  operator--(int)
-		// {
-//
-			// std::cout<<"--int\n";
-			// pointer temp = elem;
-			// if (elem->getLeft() != NULL)
-			// {
-				// elem = elem->getLeft();
-				// while (elem->getRight() != NULL)
-				// {
-					// elem = elem->getRight();
-				// }
-				// return temp;
-			// }
-			// else
-			// {
-				// // while (   (elem->getTop())->getKey() > elem->getKey())
-				// while (!(Compare()((elem->getTop())->getKey() , elem->getKey())))
-				// {
-					// elem = elem->getTop();
-				// }
-				// return temp;
-			// }
-		// }
 		bidirectional_iterator  &operator++(void)
 		{
 			// std::cout<<"\n++ void in = "<<elem->getKey()<<"\n";
@@ -418,123 +394,9 @@ namespace ft
 			else
 				it--;
 			return temp;
-			// pointer temp2=elem;
-			// pointer temp = elem;
-			// // std::cout<<"rev bidi 1 = "<<elem->getKey()<<" et end = "<<end<<"\n";
-			// while (temp->getTop() != 0)
-			// {
-//
-				// // std::cout<<"temp while 1="<<temp->getKey()<<"\n";
-				// temp = temp->getTop();
-			// }
-			// while (temp->getLeft() != 0)
-			// {
-//
-				// // std::cout<<"temp while 2="<<temp->getKey()<<"\n";
-				// temp = temp->getLeft();
-			// }
-//
-			// // std::cout<<"rev bidi 2="<<temp->getKey()<<"\n";
-			// if (temp->getKey() == elem->getKey())
-			// {
-//
-				// // std::cout<<"rev bidi 2\n";
-				// end =1;
-				// return  temp2;
-			// }
-			// if (elem->getLeft() != NULL)
-			// {
-//
-				// // std::cout<<"rev bidi 3\n";
-				// elem = elem->getLeft();
-				// while (elem->getRight() != NULL)
-				// {
-					// elem = elem->getRight();
-				// }
-				// return temp2;
-			// }
-			// else
-			// {
-//
-				// // std::cout<<"rev bidi 5="<<(elem->getKey())<<"et end = "<<end<<"\n";
-				// if (elem->getTop() == 0)
-					// return temp2;
-				// while (!(Compare()((elem->getTop())->getKey() , elem->getKey())))
-				// {
-					// // std::cout<<"rev bidi 5\n";
-					// elem = elem->getTop();
-				// }
-				// return temp2;
-			// }
-		}
+					}
 
-		// rev_bidirectional_iterator  operator++(int)
-		// {
-			// pointer temp = elem;
-			// if (elem->getLeft() != NULL)
-			// {
-				// elem = elem->getLeft();
-				// while (elem->getRight() != NULL)
-				// {
-					// elem = elem->getRight();
-				// }
-				// return temp;
-			// }
-			// else
-			// {
-				// // while (   (elem->getTop())->getKey() > elem->getKey())
-				// elem = elem->getTop();
-				// while (!(Compare() ((elem->getTop())->getKey() , elem->getKey())))
-				// {
-					// elem = elem->getTop();
-				// }
-				// return temp;
-			// }
-		// }
-		// rev_bidirectional_iterator  &operator--(void)
-		// {
-			// // std::cout<<"++ void\n";
-			// pointer temp=elem;
-			// if (temp->getRight() != NULL)
-			// {
-//
-				// // std::cout<<"++ void right != NULL"<<elem->getKey()<<"\n";
-				// temp = temp->getRight();
-//
-				// // std::cout<<"++ void right != NULL"<<temp->getKey()<<"\n";
-				// while (temp->getLeft() != NULL)
-				// {
-//
-					// // std::cout<<"++ void right != NULL While\n";
-					// temp = temp->getLeft();
-				// }
-				// elem = temp;
-				// return *this;
-			// }
-			// else
-			// {
-				// if (temp->getTop() == 0)
-				// {
-//
-					// elem = temp;
-					// return *this;
-				// }
-				// while (Compare()((temp->getTop())->getKey() , temp->getKey()))
-				// {
-//
-					// // std::cout<<"++ void right == NULL"<<temp->getKey()<<"\n";
-					// temp = temp->getTop();
-					// if (temp->getTop() == 0)
-					// {
-//
-						// //elem = temp;
-						// return *this;
-					// }
-				// }
-				// elem = temp;
-				// return *this;
-			// }
-		// }
+		
 		rev_bidirectional_iterator  &operator++(void)
 		{
 
@@ -561,61 +423,7 @@ namespace ft
 			// std::cout<<*it<<"dans rev operator ++ void4\n";
 			}
 				return *this;
-			// pointer temp = elem;
-			// // std::cout<<"rev bidi 1 = "<<elem->getKey()<<" et end = "<<end<<"\n";
-			// while (temp->getTop() != 0)
-			// {
-//
-				// // std::cout<<"temp while 1="<<temp->getKey()<<"\n";
-				// temp = temp->getTop();
-			// }
-			// while (temp->getLeft() != 0)
-			// {
-//
-				// // std::cout<<"temp while 2="<<temp->getKey()<<"\n";
-				// temp = temp->getLeft();
-			// }
-//
-			// // std::cout<<"rev bidi 2="<<temp->getKey()<<"\n";
-			// if (temp->getKey() == elem->getKey())
-			// {
-//
-				// // std::cout<<"rev bidi 2\n";
-				// end =1;
-				// return *this;
-			// }
-			// if (elem->getLeft() != NULL)
-			// {
-//
-				// // std::cout<<"rev bidi 3\n";
-				// elem = elem->getLeft();
-				// while (elem->getRight() != NULL)
-				// {
-					// elem = elem->getRight();
-				// }
-				// return *this;
-			// }
-			// else
-			// {
-//
-				// // std::cout<<"rev bidi 4"<<(elem->getTop())->getKey()<<" et " <<elem->getKey()<<"\n";
-//
-				// elem = elem->getTop();
-//
-				// // std::cout<<"rev bidi 5="<<(elem->getKey())<<"et end = "<<end<<"\n";
-				// if (elem->getTop() == 0)
-					// return *this;
-				// while (!(Compare()((elem->getTop())->getKey() , elem->getKey())))
-				// {
-					// // std::cout<<"rev bidi 5\n";
-					// elem = elem->getTop();
-				// }
-				// return *this;
-			// }
-//
-//
-			// return *this;
-		}
+					}
 
 		rev_bidirectional_iterator  operator--(int)
 		{
@@ -624,53 +432,7 @@ namespace ft
 			rev_bidirectional_iterator temp = *this;
 			it++;
 			return temp;
-			// // std::cout<<"rev_bidirectoal ++ int\n";
-			// pointer temp = elem;
-			// pointer temp2 = elem;
-			// pointer temp_top = elem;
-			// while (temp_top->top != 0)
-			// {
-				// temp_top = temp_top->top;
-			// }
-			// if (temp_top== elem)
-			// {
-				// end =1;
-				// return temp;
-			// }
-			// if (temp2->getRight() != NULL)
-			// {
-//
-				// // std::cout<<"rev_bidirectoal ++ int  right != 0\n";
-				// temp2 = temp2->getRight();
-				// while (temp2->getLeft() != NULL)
-				// {
-					// temp2 = temp2->getLeft();
-				// }
-				// elem = temp2;
-				// return temp;
-			// }
-			// else
-			// {
-				// if (temp->getTop() == 0)
-				// {
-//
-					// return temp2;
-				// }
-				// while (Compare()((temp->getTop())->getKey() , temp->getKey()))
-				// {
-//
-					// // std::cout<<"++ void right == NULL"<<temp->getKey()<<"\n";
-					// temp = temp->getTop();
-					// if (temp->getTop() == 0)
-					// {
-//
-						// elem = temp;
-						// return temp2;
-					// }
-				// }
-				// elem = temp;
-				// return temp2;
-			// }
+			
 
 		}	
 		reference operator=(const reference cpy)
@@ -711,10 +473,7 @@ namespace ft
 				// std::cout<<"ici x= "<<x.elem->getKey()<<"end = "<<x.end<<" ici y ="<<y.elem->getKey()<<"end="<<y.end<<std::endl;
 				return (x.it == y.it && x.end == y.end);
 
-				// if (x.elem == y.elem && x.end == y.end)
-					// return 1;
-				// else
-					// return 0;
+				
 			}
 		bool operator!=(rev_bidirectional_iterator<T,Key,mapped,fpair> & x)
 		{

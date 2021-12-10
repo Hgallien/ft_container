@@ -66,6 +66,11 @@ namespace ft
 		{
 			elem = cpy.elem;
 		}
+
+		template <typename T2>
+		random_access_iterator(const random_access_iterator<T2> &cpy) : elem(cpy.operator->())
+		{ }
+
 		random_access_iterator(pointer point)
 		{
 			elem = point;
@@ -150,7 +155,7 @@ namespace ft
 		{
 			return *(this->elem) ;
 		}
-		pointer operator->(void)
+		pointer operator->(void) const
 		{
 			return (this->elem) ;
 		}
@@ -195,9 +200,11 @@ namespace ft
 				else
 					return 0;
 			}
-		bool operator!=(random_access_iterator<T> & x)
+
+		template <typename S, typename Q>
+		friend bool operator!=(random_access_iterator<S> const &x,random_access_iterator<Q> const& y) 
 		{
-			if (this->elem == x.elem)
+			if (y.elem == x.elem)
 				return 0;
 			else
 				return 1;

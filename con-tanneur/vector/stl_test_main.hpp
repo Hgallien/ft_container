@@ -4,10 +4,19 @@
 
 #include <vector>
 #include <fstream>
+
+template<typename T>
+void	print_vect(std::vector<T> v,std::ofstream &out)
+{
+	for(typename std::vector<T>::iterator it = v.begin(); it != v.end(); it++)
+	{
+		out<<*it<<" ";
+	}
+	out<<"\n";
+}
 	template <typename T>
 void	stl_test_constructor_assignastion(std::ofstream &out)
 {
-	std::cout<<"test111\n";
 	out<<"////////////Test constructor/////////////////\n";
 	std::vector<T> v_base(100,T(42));
 	out<<"Size = "<<v_base.size()<<std::endl;
@@ -15,7 +24,6 @@ void	stl_test_constructor_assignastion(std::ofstream &out)
 	out<<"Capacity= "<<v_base.capacity()<<std::endl;
 	out<<"Empty= "<<v_base.empty()<<std::endl;
 
-	std::cout<<"test222\n";
 	out<<"Test constructor n & val\n";
 	for(typename  std::vector<T>::iterator it = v_base.begin();it!= v_base.end(); it++)
 	{
@@ -52,47 +60,12 @@ void	stl_test_constructor_assignastion(std::ofstream &out)
 	out<<"Capacity= "<<v_base_e.capacity()<<std::endl;
 	out<<"Empty= "<<v_base.empty()<<std::endl;
 
-	std::cout<<"test333\n";
 	for(typename std::vector<T>::iterator it = v_base_e.begin();it!= v_base_e.end(); it++)
 	{
 		out<<*it<<" ";
 	}
 
-	std::cout<<"test444\n";
 	out<<"\n";
-
-	// out<<"Test constructor vide iterator range\n";
-//
-	// std::cout<<"test44444444444\n";
-	// std::vector<T> v_iterator_e(v_base_e.begin(),v_base.end());
-//
-	// std::cout<<"test888888888888888\n";
-	// v_base_e.clear();
-//
-	// std::cout<<"test555\n";
-	// for(typename std::vector<T>::iterator it = v_iterator_e.begin();it!= v_iterator_e.end(); it++)
-	// {
-		// out<<*it<<" ";
-//
-	// }
-	// out<<"\n";
-//
-	// out<<"Test constructor vide copy\n";
-	// std::vector<T> v_copy_e(v_iterator_e);
-	// for(typename std::vector<T>::iterator it = v_iterator_e.begin();it!= v_iterator_e.end(); it++)
-	// {
-		// out<<*it<<" ";
-	// }
-	// out<<"\n";
-//
-	// std::vector<T> v_ass_e = v_copy_e;
-	// for(typename std::vector<T>::iterator it = v_ass_e.begin();it!= v_ass_e.end(); it++)
-	// {
-		// out<<*it<<" ";
-	// }
-	// out<<"\n";
-
-
 }
 
 	template <typename T>
@@ -355,5 +328,49 @@ for(typename  std::vector<T>::iterator it = v_b.begin();it!= v_b.end(); it++)
 	}
 	out<<"Test AT\n";
 	out<<v_b.back()<<std::endl;
+}
+template<typename T>
+void stl_test_it_validity(std::ofstream &out) {
+	std::vector<T> vect1;
+	std::vector<T> vect2;
+
+	for (int i = 0; i < 10; i++) {
+		vect1.push_back(i);
+	}
+	for (int i = 10; i < 20; i++) {
+		vect2.push_back(i);
+	}
+
+	typename std::vector<T>::iterator it1 = vect1.begin() + 3;
+	typename std::vector<T>::const_iterator itC = vect1.begin();
+	typename std::vector<T>::iterator it2 = vect2.begin() + 3;
+	
+	out << "(it1 == itC) =" << (it1 == itC) << std::endl;
+	out << "(it1 != itC) =" << (it1 != itC) << std::endl;
+	int* p1 = &vect1[4];
+	int* p2 = &vect2[4];
+	int& r1 = vect1[5];
+	int& r2 = vect2[5];
+
+	print_vect(vect1,out);
+	print_vect(vect2 ,out);
+	swap(vect1, vect2);
+
+	print_vect(vect1,out);
+	print_vect(vect2 ,out);
+	out << *it1 << std::endl;
+	out << *it2 << std::endl;
+	out << *p1 << std::endl;
+	out << *p2 << std::endl;
+	out << r1 << std::endl;
+	out << r2 << std::endl;
+	*it1 = -1;
+	*it2 = -2;
+	*p1 = -3;
+	*p2 = -4;
+	r1 = -5;
+	r2 = -6;
+	print_vect(vect1,out);
+	print_vect(vect2 ,out);
 }
 #endif 

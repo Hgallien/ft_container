@@ -4,9 +4,13 @@
 #include <memory>
 #include "Iterator.hpp"
 #include <iostream>
+//utilise pour std swap
+// #include <algorithm>
+#include <utility>
 #include <iterator>
 #include "utils.hpp" 
-
+namespace ft
+{
 template<typename T, class Allocator = std::allocator<T> >
 class vector
 {
@@ -33,16 +37,16 @@ public:
 	public:
 		const_iterator begin(void) const
 		{
-			return const_iterator (&t[0]); 
+			return const_iterator (t); 
 		}
 		const_iterator end(void) const
 		{
-			return const_iterator (t + _size);
+			return const_iterator ((t + _size));
 		}
 
 		iterator begin(void)
 		{
-			return iterator (&t[0]); 
+			return iterator(t); 
 		}
 		iterator end(void)
 		{
@@ -656,32 +660,23 @@ template <class InputIterator>
 			_size = 0;
 			_capacity = 0;
 		}
-		friend void swap(vector &x, vector &y)
-		{
-			T* temp = x.t;
-			size_type s_temp = x._size;
-			size_type c_temp = x._capacity;
-			x.t = y.t;
-			x._size = y._size;
-			x._capacity = y._capacity;
-			y.t = temp;
-			y._size = s_temp;
-			y._capacity = c_temp;
-		}
 		void swap (vector& x)
 		{
-			T* temp = t;
-			size_type s_temp = _size;
-			size_type c_temp = _capacity;
-			t = x.t;
-			_size = x._size;
-			_capacity = x._capacity;
-			x.t = temp;
-			x._size = s_temp;
-			x._capacity = c_temp;
+			// T* temp = t;
+			// size_type s_temp = _size;
+			// size_type c_temp = _capacity;
+			// t = x.t;
+			// _size = x._size;
+			// _capacity = x._capacity;
+			// x.t = temp;
+			// x._size = s_temp;
+			// x._capacity = c_temp;
+			std::swap(x.t,t);
+			std::swap(x._size,_size);
+			std::swap(x._capacity,_capacity);
+			
 		}
 		//non member overload relation mon cul
-		
 		friend bool operator==(vector const &x, vector const &y) 
 		{
 			if (x.size() != y.size())
@@ -736,5 +731,13 @@ friend bool operator>=(vector const &x, vector const &y)
 			return !(x<y);
 		}
 };
+
+}
+template<class T, class Alloc>
+void	swap(ft::vector<T,Alloc> &v1, ft::vector<T,Alloc> &v2)
+{
+	v1.swap(v2);
+}
+
 #endif
 
