@@ -239,6 +239,8 @@ struct A {
 
 int main()
 {
+		
+
 	std::ofstream std_file;
 	std::ofstream mine_file;
 	clock_t t_start_stl;
@@ -248,23 +250,23 @@ int main()
 	mine_file.open("mine_out", std::ios::out);
 	t_start_mine = clock();
 	test_constructor_assignastion<const int,int>(mine_file);
-	// test_erase_find_bound<const int,int>(mine_file);
-	// test_iterator<const int,int>(mine_file);
-	// test_constructor_assignastion<const int,A>(mine_file);
-	// test_erase_find_bound<const int,A>(mine_file);
-	// test_iterator<const int,A>(mine_file);
+	test_erase_find_bound<const int,int>(mine_file);
+	test_iterator<const int,int>(mine_file);
+	test_constructor_assignastion<const int,A>(mine_file);
+	test_erase_find_bound<const int,A>(mine_file);
+	test_iterator<const int,A>(mine_file);
 	t_start_mine = clock() - t_start_mine;
 	t_start_stl = clock();
 	stl_test_constructor_assignastion<const int,int>(std_file);
-	// stl_test_erase_find_bound<const int,int>(std_file);
-	// stl_test_iterator<const int,int>(std_file);
-	// stl_test_constructor_assignastion<const int,A>(std_file);
-	// stl_test_erase_find_bound<const int,A>(std_file);
-	// stl_test_iterator<const int,A>(std_file);
+	stl_test_erase_find_bound<const int,int>(std_file);
+	stl_test_iterator<const int,int>(std_file);
+	stl_test_constructor_assignastion<const int,A>(std_file);
+	stl_test_erase_find_bound<const int,A>(std_file);
+	stl_test_iterator<const int,A>(std_file);
 	t_start_stl = clock() - t_start_stl;
 	std::cout<<"my timing = "<< ((float)t_start_mine) / CLOCKS_PER_SEC<<" timing stl ="<<((float)t_start_stl) / CLOCKS_PER_SEC<<" difference = "<<((float)t_start_mine) / CLOCKS_PER_SEC - ((float)t_start_stl) / CLOCKS_PER_SEC<<std::endl;
 	test_swap_itVal_ordered(mine_file,std_file);
 	mine_file.close();
 	std_file.close();
-	
+
 }

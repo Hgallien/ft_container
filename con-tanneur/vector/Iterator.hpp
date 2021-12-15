@@ -69,7 +69,7 @@ namespace ft
 
 		template <typename T2>
 		random_access_iterator(const random_access_iterator<T2> &cpy) : elem(cpy.operator->())
-		{ }
+		{}
 
 		random_access_iterator(pointer point)
 		{

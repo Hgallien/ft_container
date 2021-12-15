@@ -331,7 +331,6 @@ void test_it_validity(std::ofstream &out) {
 	for (int i = 10; i < 20; i++) {
 		vect2.push_back(i);
 	}
-	std::cout<<"je le savais\n";
 	typename vector<T>::iterator it1 = vect1.begin() + 3;
 	typename vector<T>::const_iterator itC = vect1.begin();
 
@@ -343,7 +342,6 @@ void test_it_validity(std::ofstream &out) {
 	int* p2 = &vect2[4];
 	int& r1 = vect1[5];
 	int& r2 = vect2[5];
-	std::cout<<"je le savais2\n";
 	print_vect(vect1,out);
 	print_vect(vect2 ,out);
 	swap(vect1, vect2);

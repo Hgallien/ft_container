@@ -58,14 +58,22 @@ namespace ft
 		pointer elem;
 		bool end;
 		public :
-		bool getEnd()
+		bool getEnd() const
 		{
 			return end;
 		}
+
 		bidirectional_iterator(void)
 		{
 			elem =0;
 			end = 0;
+		}
+	template<typename T2,typename K,typename m,typename fp>
+		bidirectional_iterator(const bidirectional_iterator<T2,K,m,fp> &cpy)
+		{
+			// std::cout<<"penis de fer\n";
+			elem = cpy.getElem();
+			end = cpy.getEnd();
 		}
 		bidirectional_iterator(const bidirectional_iterator &cpy)
 		{
@@ -294,7 +302,8 @@ namespace ft
 		template<typename S,typename K,typename M,typename F>	
 		bidirectional_iterator &operator=(const bidirectional_iterator<S,K,M,F> cpy)
 		{
-			elem = const_cast<pointer>(cpy.getElem());
+			elem = (cpy.getElem());
+			end = cpy.getEnd();
 			return *this;
 		}
 		reference operator=(const reference cpy)

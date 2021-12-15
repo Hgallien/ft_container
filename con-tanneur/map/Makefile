@@ -19,7 +19,7 @@ DBFLAGS=-g3 -fsanitize=address
 # .PHONY means these rules get executed even if
 # files of those names exist.
 .PHONY: all clean
-NAME = ma 
+NAME = map 
 # The first rule is the default, ie. "make",
 # "make all" and "make parking" mean the same
 all: $(NAME)
